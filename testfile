@@ -1,1 +1,417 @@
 
+ class Program
+    {
+
+
+        static void Main(string[] args)
+        {
+            //Console.WriteLine(GetDeviation(new int[] { 9, 1, 6, 3 }));
+            //Console.ReadLine();
+            LongestSentence();
+            int A = 123456; // Exepected output 162534
+            int intno1 = A / 10;
+            string strvalue = "";
+
+            int[] arr = new int[3];
+            arr[0] = intno1 / 10;
+            arr[1] = intno1 % 10;
+            arr[2] = A % 10;
+            int intfinalNo = 0;
+            for (int i = 0; i <= arr.Length - 1; i++)
+            {
+                if (i == 0)
+                {
+                    strvalue = arr[i].ToString();
+                }
+                else if (i == 1) { strvalue += arr[i + 1].ToString(); }
+                else if (i == 2) { strvalue += arr[i - 1].ToString(); }
+            }
+            Console.WriteLine(strvalue);
+            Console.Read();
+
+        }
+
+        #region Get only valid props like string, int bool etc.
+        static void MainGetOnlyValidProps(String[] args)
+        {
+            var _props = TypeDescriptor.GetProperties(typeof(B)).OfType<PropertyDescriptor>();
+
+            var _allProps = _props.Select(s => new
+            {
+                Name = s.Name.ToLower(),
+                PropertyType = s.PropertyType,
+                IsPrimitive = s.PropertyType.IsPrimitive,
+                IsValueType = s.PropertyType.IsValueType,
+                IsString = (s.PropertyType == typeof(string))
+            }).ToList();
+
+            var _validProps = _props.Where(w => w.PropertyType.IsPrimitive || w.PropertyType.IsValueType || w.PropertyType == (typeof(string))).Select(s => new
+            {
+                Name = s.Name.ToLower()
+            }).ToList();
+
+            string str = "";
+
+        }
+        #endregion
+
+
+        #region Creative Accounting
+
+        static void MainCreative_Accounting(String[] args)
+        {
+            int A = 123456789;
+            string output = string.Empty;
+            List<string> _input = A.ToString().Select(s => s.ToString()).ToList();
+            int startIndex = (int)Math.Floor((double)_input.Count / 2);
+            int index = 0;
+            for (int i = _input.Count - 1; (i >= startIndex && index < startIndex); i--)
+            {
+                if (index == startIndex)
+                    output = output + _input[i].ToString();
+                else if (index < startIndex)
+                    output = output + _input[index].ToString() + _input[i].ToString();
+                index++;
+            }
+            Console.WriteLine(output);
+            Console.Read();
+        }
+
+        #endregion
+
+
+
+        static void Main_OLS(string[] args)
+        {
+            Func<int[], Func<int[], int>> func = a => b => a.Where((x, i) => x > b[i]).Count();
+
+            Console.WriteLine(func(new[] { 13, 5, 8, 6, 11, 12 })(new[] { 10, 10, 6, 5, 3, 12 }));
+
+            Console.WriteLine(func(new[] { 2, 3, 13, 8, 4, 11 })(new[] { 12, 2, 12, 2, 5, 10 }));
+
+            Console.WriteLine(func(new[] { 1, 2, 13, 12, 12 })(new[] { 2, 3, 13, 13, 13, 13 }));
+
+            Console.Read();
+
+        }
+
+        #region Cards War
+        static void MainCardsWar(String[] args)
+        {
+            Dictionary<string, int> _Cards = Enumerable.Range(2, 8).ToDictionary(i => i.ToString(), i => i);
+            _Cards.Add("T", 10);
+            _Cards.Add("J", 11);
+            _Cards.Add("Q", 12);
+            _Cards.Add("K", 15);
+            _Cards.Add("A", 20);
+            string A = "A586QK";
+            string B = "JJ653K";
+            if (A.Length != B.Length)
+                Console.WriteLine("0");
+            int _cnt = A.ToCharArray().Zip(B.ToCharArray(), (a, b) => new { firstVal = _Cards[a.ToString()], SecondVal = _Cards[b.ToString()] }).Where(w => w.firstVal > w.SecondVal).Count();
+            Console.Write(_cnt);
+            Console.ReadLine();
+        }
+
+
+        #endregion
+
+        #region Format Phone Numbers
+        //e.g. 00-44 48 5555 8361 = 004-448-555-583-61
+        //e.g. 0 - 22 1985--324 = 022-198-53-24
+        //e.g. 555372654 = 555-372-654
+        //MainFormatPhoneNumbers
+        static void MainFormatPhoneNumbers(String[] args)
+        {
+            string PhoneNumber = "0 - 22 1985--324";
+            //PhoneNumber = "555372654";
+            //PhoneNumber = "00-44 48 5555 8361";
+            //PhoneNumber = "04";
+            string _onlyNumbers = Regex.Replace(PhoneNumber, @"[^\d]", "");
+            int _mod = _onlyNumbers.Length % 3;
+            _mod = _mod == 2 ? 1 : _mod;
+            string _rightPart = _mod > 0 ? _onlyNumbers.Substring(_onlyNumbers.Length - _mod - 1) : string.Empty;
+            string _leftParts = _mod > 0 ? _onlyNumbers.Substring(0, _onlyNumbers.Length - _mod - 1) : _onlyNumbers;
+            List<string> _parts = Enumerable.Range(0, ((int)Math.Ceiling((double)_leftParts.Length / (double)3))).Select(i => _leftParts.Substring(i * 3, ((_leftParts.Length / 3) == i ? _leftParts.Length - (i * 3) : 3))).ToList();
+            if (!string.IsNullOrEmpty(_rightPart))
+                _parts.Add(_rightPart);
+            Console.WriteLine(string.Join("-", _parts));
+            Console.ReadLine();
+
+        }
+
+        #endregion
+
+        #region Factorial e.g. 5,3 = 10
+        public static int factorial(int i)
+        {
+            int j = 1;
+            while (i > 0)
+            {
+
+                j = j * i;
+                --i;
+
+            }
+            return j;
+        }
+
+        static void MainFactorial(string[] args)
+        {
+
+            int n = 5, k = 3;
+            // 120 / 6 * 2
+            double result = factorial(n) / (factorial(k) * factorial(n - k));
+            if (result >= 1000000000)
+                Console.WriteLine(-1);
+            else
+                Console.WriteLine(result);
+
+            Console.Read();
+
+
+        }
+        #endregion
+
+        #region Print Stars
+        static void Main4(string[] args)
+        {
+            Console.WriteLine("Please enter number of lines : ");
+            int row = Convert.ToInt32(Console.ReadLine());
+
+            Enumerable.Range(1, row).ToList().ForEach(f =>
+            {
+
+                // Right Side
+                string str = string.Join(" ", new string[(row - f) + 1]);
+                str = str.PadRight(row, '*');
+
+                // Left Side
+                //string str = string.Join("*", new string[f + 1]);
+                //str.PadLeft(row, ' ');
+                Console.WriteLine(str);
+            });
+
+            Console.ReadLine();
+
+
+        }
+        #endregion
+
+        #region Fibonacci
+        public static void Fibonacci(ref int first, ref int second)
+        {
+            int write = first + second;
+            first = second;
+            second = write;
+
+            Console.WriteLine(write);
+        }
+        static void Main3(string[] args)
+        {
+            // 0,1,1,2,3,5,8,13
+
+            int first = 0;
+            int second = 1;
+            Console.WriteLine(first);
+            Console.WriteLine(second);
+
+            while (second < 150)
+                Fibonacci(ref first, ref second);
+
+            Console.ReadLine();
+        }
+        #endregion
+
+        #region  Program should return index 0 as minimum distance is between 0 and 1 element.
+        static void Main1(string[] args)
+        {
+            // Program should return index 0 as minimum distance is between 0 and 1 element.
+            int[] A = new int[] { 7, 8, 5, 1 };
+            A = new int[] { 4, 7, 1, 8 };
+
+            int minDiff = -1;
+            int minIndex = -1;
+            // var d = A.Select((s, i) => new { Index = i, Element = s }).ToList();
+            A.Select((s, i) => new { Index = i, Element = s }).ToList().ForEach(
+                f =>
+                {
+                    int i = 0;
+                    while (i < A.Length)
+                    {
+                        if (f.Index == i)
+                        {
+                            i++;
+                            continue;
+                        }
+                        int diff = (f.Element - A[i]);
+                        if (diff < 0)
+                            diff = diff * -1;
+                        if (minDiff == -1 || minDiff > diff)
+                        {
+                            minDiff = diff;
+                            minIndex = f.Index;
+                        }
+                        i++;
+                    }
+                });
+
+            //int x = solution(A);
+            Console.WriteLine(string.Format("Result Index : {0}", minIndex));
+            Console.WriteLine(string.Format("Result Diff : {0}", minDiff));
+            Console.Read();
+
+        }
+        #endregion
+
+        #region Get All Combinations
+        class formPermut
+        {
+            public void swapTwoNumber(ref int a, ref int b)
+            {
+                int temp = a;
+                a = b;
+                b = temp;
+            }
+            public void prnPermut(int[] list, int k, int m)
+            {
+                int i;
+                if (k == m)
+                {
+                    for (i = 0; i <= m; i++)
+                        Console.Write("{0}", list[i]);
+                    Console.Write(" ");
+                }
+                else
+                    for (i = k; i <= m; i++)
+                    {
+                        swapTwoNumber(ref list[k], ref list[i]);
+                        prnPermut(list, k + 1, m);
+                        swapTwoNumber(ref list[k], ref list[i]);
+                    }
+            }
+        }
+
+        class Program342
+        {
+            static void Main1245(string[] args)
+            {
+                int n, i;
+                formPermut test = new formPermut();
+                int[] arr1 = new int[5];
+
+                Console.WriteLine("\n\n Recursion : Generate all possible permutations of an array :");
+                Console.WriteLine("------------------------------------------------------------------");
+
+                Console.Write(" Input the number of elements to store in the array [maximum 5 digits ] :");
+                n = Convert.ToInt32(Console.ReadLine());
+                Console.Write(" Input {0} number of elements in the array :\n", n);
+                for (i = 0; i < n; i++)
+                {
+                    Console.Write(" element - {0} : ", i);
+                    arr1[i] = Convert.ToInt32(Console.ReadLine());
+                }
+
+                Console.Write("\n The Permutations with a combination of {0} digits are : \n", n);
+                test.prnPermut(arr1, 0, n - 1);
+                Console.Write("\n\n");
+                Console.ReadLine();
+            }
+
+        }
+
+        class Program15645
+        {
+            public static void Main1(string[] args)
+            {
+                Console.WriteLine("Please enter numbers :");
+                string input = string.Empty;
+                while (!String.IsNullOrWhiteSpace(input = Console.ReadLine()))
+                {
+                    Console.WriteLine("Results Below :");
+                    List<string> Combinations = new List<string>();
+                    var intArray = input.Select(s => s - 48).ToArray();
+                    var intArrayLength = intArray.Length;
+                    int _tempVal;
+                    Enumerable.Range(0, intArrayLength).ToList().ForEach(
+                        f =>
+                        {
+                            int i;
+                            int Index = f, NIndex = f + 1 > intArrayLength - 1 ? 0 : f + 1;
+                            var tempArray = intArray;
+                            _tempVal = tempArray[Index];
+                            tempArray[Index] = tempArray[NIndex];
+                            tempArray[NIndex] = _tempVal;
+                            for (i = 0; i < intArrayLength; i++)
+                            {
+                                Index = i;
+                                NIndex = i + 1 > intArrayLength - 1 ? 0 : i + 1;
+                                int w = 0;
+                                while (w < intArrayLength)
+                                {
+                                    Index = w;
+                                    NIndex = w + 1 > intArrayLength - 1 ? 0 : w + 1;
+                                    _tempVal = tempArray[Index];
+                                    tempArray[Index] = tempArray[NIndex];
+                                    tempArray[NIndex] = _tempVal;
+                                    Combinations.Add(string.Join("", tempArray));
+                                    w++;
+                                }
+                            }
+                        });
+                    Combinations.Distinct().OrderBy(o => o).ToList().ForEach(f => Console.WriteLine(f));
+                }
+                Console.ReadLine();
+            }
+        }
+        #endregion
+
+        #region Deviation
+
+        static int GetDeviation(int[] intArray)
+        {
+            if (intArray.Length == 0)
+                return 0;
+            int _Average = Convert.ToInt32(intArray.Average());
+            var Data = intArray.Select((element, index) => new { Index = index, Element = element, MaxDeviation = new int[] { _Average - element, element - _Average }.Max() })
+                .OrderByDescending(o => o.MaxDeviation).ToList();
+            return Data.First().Index;
+        }
+
+        #endregion
+
+        #region Power that divides
+
+        static void Mainsdfsdf(string[] args)
+        {
+            int input = 32;
+            int i = 1;
+            int valid = 1;
+
+            while (Math.Pow(2, i++) < input)
+            {
+                if (input % Math.Pow(2, i) == 0)
+                    valid = i;
+            }
+            Console.WriteLine(valid);
+            Console.Read();
+        }
+
+        #endregion
+
+
+        #region Longest Sentence
+
+        static void LongestSentence()
+        {
+            string srt = "We test coders. Give us a try?";
+
+            int maxWords = srt.Split(new string[] { ".", "?", "!" }, StringSplitOptions.None).Select(s => s.Trim().Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Count()).Max();
+            Console.WriteLine(maxWords);
+            Console.ReadLine();
+        }
+
+
+        #endregion
+
+    }
